@@ -1,0 +1,338 @@
+{
+  "datasets": [
+    {
+      "name": "393f04d2",
+      "displayName": "preco_minimo",
+      "queryLines": [
+        "SELECT\r\n",
+        "  round(valor_brl, 2) AS min_price_brl,\r\n",
+        "  timestamps AS min_timestamp\r\n",
+        "FROM pipeline_api_bitcoin.bitcoin_data.bitcoin_data\r\n",
+        "WHERE criptomoeda = 'BTC'\r\n",
+        "ORDER BY valor_brl ASC, timestamps DESC\r\n",
+        "LIMIT 1\r\n"
+      ]
+    },
+    {
+      "name": "448b75c4",
+      "displayName": "preco_maximo",
+      "queryLines": [
+        "SELECT\r\n",
+        "  round(valor_brl, 2) AS max_price_brl,\r\n",
+        "  timestamps AS max_timestamp\r\n",
+        "FROM pipeline_api_bitcoin.bitcoin_data.bitcoin_data\r\n",
+        "WHERE criptomoeda = 'BTC'\r\n",
+        "ORDER BY valor_brl DESC, timestamps DESC\r\n",
+        "LIMIT 1"
+      ]
+    },
+    {
+      "name": "dfa85aba",
+      "displayName": "ultimo_preco",
+      "queryLines": [
+        "SELECT\r\n",
+        "  round(valor_brl, 2) AS last_price_brl,\r\n",
+        "  timestamps AS last_timestamp\r\n",
+        "FROM pipeline_api_bitcoin.bitcoin_data.bitcoin_data\r\n",
+        "WHERE criptomoeda = 'BTC'\r\n",
+        "ORDER BY timestamps DESC\r\n",
+        "LIMIT 1"
+      ]
+    },
+    {
+      "name": "05070dc9",
+      "displayName": "dados_bitcoin",
+      "queryLines": [
+        "SELECT\r\n",
+        "  timestamps,\r\n",
+        "  valor_brl\r\n",
+        "FROM pipeline_api_bitcoin.bitcoin_data.bitcoin_data\r\n",
+        "WHERE criptomoeda = 'BTC'\r\n",
+        "ORDER BY timestamps"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "5a7200f5",
+      "displayName": "Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "82e82ae4",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\">Última Cotação</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "646ad8dd",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\">Maior Cotação</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "51d09853",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\">Menor Cotação</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f228e167",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dfa85aba",
+                  "fields": [
+                    {
+                      "name": "secondly(last_timestamp)",
+                      "expression": "DATE_TRUNC(\"SECOND\", `last_timestamp`)"
+                    },
+                    {
+                      "name": "sum(last_price_brl)",
+                      "expression": "SUM(`last_price_brl`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "DATE_TRUNC(\"SECOND\", `last_timestamp`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(last_price_brl)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                },
+                "period": {
+                  "fieldName": "secondly(last_timestamp)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "d7907554",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "448b75c4",
+                  "fields": [
+                    {
+                      "name": "secondly(max_timestamp)",
+                      "expression": "DATE_TRUNC(\"SECOND\", `max_timestamp`)"
+                    },
+                    {
+                      "name": "sum(max_price_brl)",
+                      "expression": "SUM(`max_price_brl`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "DATE_TRUNC(\"SECOND\", `max_timestamp`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(max_price_brl)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                },
+                "period": {
+                  "fieldName": "secondly(max_timestamp)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "b70e35d9",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "393f04d2",
+                  "fields": [
+                    {
+                      "name": "secondly(min_timestamp)",
+                      "expression": "DATE_TRUNC(\"SECOND\", `min_timestamp`)"
+                    },
+                    {
+                      "name": "sum(min_price_brl)",
+                      "expression": "SUM(`min_price_brl`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "DATE_TRUNC(\"SECOND\", `min_timestamp`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(min_price_brl)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                },
+                "period": {
+                  "fieldName": "secondly(min_timestamp)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "evolucao-valor-bitcoin",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "05070dc9",
+                  "fields": [
+                    {
+                      "name": "timestamps",
+                      "expression": "`timestamps`"
+                    },
+                    {
+                      "name": "valor_brl",
+                      "expression": "`valor_brl`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Evolução do Valor do Bitcoin"
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "timestamps",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "valor_brl",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
