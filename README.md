@@ -46,7 +46,13 @@ Ao final do processo, os dados são consumidos em um **dashboard simples**, cria
 
 > Print do dashboard criado no Databricks
 
-POR IMAGEM AQUI
+![dash.png](./dash.png "dash.png")
+
+---
+
+## 👽 Genie
+
+![genie.png](./genie.png "genie.png")
 
 ---
 
@@ -54,7 +60,7 @@ POR IMAGEM AQUI
 
 > Exemplos de execuções bem-sucedidas do job de ETL
 
-![config_scheduler.png](./image_1770667513778.png "image_1770667513778.png")
+![config_scheduler.png](./config_scheduler.png "config_scheduler.png")
 ---
 
 ## 📌 Observações
