@@ -51,7 +51,7 @@ Ao final do processo, os dados são consumidos em um **dashboard simples**, cria
 ---
 
 ## 👽 Genie
-
+> Print do Genie criado no Databricks
 ![genie.png](./genie.png "genie.png")
 
 ---
@@ -73,4 +73,5 @@ Ao final do processo, os dados são consumidos em um **dashboard simples**, cria
 
 ## 📚 Próximos Passos (opcional)
 
-- Gerar Dashboard simples no Power BI 
+- Enriquecimento de dados
+- Novos requests de diferentes API's
